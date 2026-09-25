@@ -24,7 +24,16 @@ services:
       RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
 
   plane-minio:
-    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    # MinIO stopped publishing free images (quay.io/minio/minio now answers 401 to
+    # anonymous pulls and the Docker Hub repo was removed in October 2025), so use
+    # Chainguard's maintained build of the same server, which still ships both `minio`
+    # and `mc`. Pinned by digest because Chainguard publishes no per-release tags,
+    # which keeps the reproducible pin the previous image tag gave us.
+    image: chainguard/minio@sha256:bd014394a80898e68c149f2311fdf8d5a2c2f3bb2c33b9327ae6d02b4b065ae1
+    # Chainguard images run as nonroot (uid 65532), but this service bootstraps the
+    # bucket under /export and `mc` writes its config to $HOME, both inside the
+    # root-owned named volume. The previous image ran as root.
+    user: "0"
     restart: unless-stopped
     networks:
       - dev_env
