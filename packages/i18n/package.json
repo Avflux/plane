@@ -13,13 +13,15 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "dev": "tsdown --watch --no-clean",
-    "build": "pnpm run generate:types && tsdown",
+    "dev": "pnpm run generate:loaders && tsdown --watch --no-clean",
+    "build": "pnpm run generate && tsdown",
+    "generate": "pnpm run generate:types && pnpm run generate:loaders",
     "generate:types": "tsx scripts/generate-types.ts",
+    "generate:loaders": "tsx scripts/generate-locale-loaders.ts",
     "sync:check": "tsx scripts/sync-check.ts",
     "check:sync": "tsx scripts/sync-check.ts --ci",
     "check:lint": "oxlint --max-warnings=9 .",
-    "check:types": "pnpm run generate:types && tsc --noEmit",
+    "check:types": "pnpm run generate && tsc --noEmit",
     "check:format": "oxfmt --check .",
     "fix:lint": "oxlint --fix .",
     "fix:format": "oxfmt .",

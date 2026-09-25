@@ -112,8 +112,9 @@ temp/
 scripts/
 !packages/i18n/scripts/
 
-# i18n auto-generated types (regenerated on every build)
+# i18n auto-generated types and locale loaders (regenerated on every build)
 packages/i18n/src/types/keys.generated.ts
+packages/i18n/src/core/locale-loaders.generated.ts
 
 # Local security notes (not for version control)
 /security/
